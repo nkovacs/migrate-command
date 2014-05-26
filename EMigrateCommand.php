@@ -192,7 +192,7 @@ class EMigrateCommand extends MigrateCommand
 			$this->migrationPath = $tmpMigrationPath;
 
 			echo "extended with EMigrateCommand by cebe <mail@cebe.cc>\n\n";
-            echo "Active database component (connectionString):\n    ".Yii::app()->{$this->connectionID}->connectionString."\n\n";
+			echo "Active database component (connectionString):\n    ".Yii::app()->{$this->connectionID}->connectionString."\n\n";
 
 			// check --module parameter
 			if ($action == 'create' && !is_null($this->module)) {
@@ -296,9 +296,9 @@ class EMigrateCommand extends MigrateCommand
 		// update migration table with modules
 		/** @var CDbCommand $command */
 		$command = $this->getDbConnection()->createCommand()
-					    ->select('version')
-					    ->from($this->migrationTable)
-					    ->where('module IS NULL');
+			->select('version')
+			->from($this->migrationTable)
+			->where('module IS NULL');
 
 		foreach($command->queryColumn() as $version) {
 			$module = null;
@@ -379,26 +379,26 @@ class EMigrateCommand extends MigrateCommand
 			$select = "version AS version_name, apply_time";
 			$params = array();
 		} else {
-            /*
-             * switch concat functions for different db systems
-             * please let me know if your system is not switched
-             * correctly here. File a bug here:
-             * https://github.com/yiiext/migrate-command/issues
-             */
-            switch ($db->getDriverName())
-            {
-                case 'mysql':
-                    $select = "CONCAT(module, :delimiter, version) AS version_name, apply_time";
-                break;
-                case 'mssql': // http://msdn.microsoft.com/en-us/library/aa276862%28v=sql.80%29.aspx
-                case 'sqlsrv':
-                case 'cubrid': // http://www.cubrid.org/manual/840/en/Concatenation%20Operator
-                    $select = "(module + :delimiter + version) AS version_name, apply_time";
-                break;
-                default: // SQL-ANSI default: sqlite, firebird, ibm, informix, oci, pgsql, sqlite, sqlite2
-                         // not sure what to do with odbc
-                    $select = "(module || :delimiter || version) AS version_name, apply_time";
-            }
+			/*
+			 * switch concat functions for different db systems
+			 * please let me know if your system is not switched
+			 * correctly here. File a bug here:
+			 * https://github.com/yiiext/migrate-command/issues
+			 */
+			switch ($db->getDriverName())
+			{
+				case 'mysql':
+					$select = "CONCAT(module, :delimiter, version) AS version_name, apply_time";
+				break;
+				case 'mssql': // http://msdn.microsoft.com/en-us/library/aa276862%28v=sql.80%29.aspx
+				case 'sqlsrv':
+				case 'cubrid': // http://www.cubrid.org/manual/840/en/Concatenation%20Operator
+					$select = "(module + :delimiter + version) AS version_name, apply_time";
+				break;
+				default: // SQL-ANSI default: sqlite, firebird, ibm, informix, oci, pgsql, sqlite, sqlite2
+						// not sure what to do with odbc
+					$select = "(module || :delimiter || version) AS version_name, apply_time";
+			}
 			$params = array(':delimiter' => $this->moduleDelimiter);
 		}
 
@@ -430,9 +430,9 @@ class EMigrateCommand extends MigrateCommand
 		/** @var CDbConnection $db */
 		$db = $this->getDbConnection();
 		if (!$db->createCommand()->select('version')
-								 ->from($this->migrationTable)
-								 ->where('module=:module AND version=:version')
-								 ->queryRow(true, array(':module'=>$module, 'version'=>$baseName)))
+			->from($this->migrationTable)
+			->where('module=:module AND version=:version')
+			->queryRow(true, array(':module'=>$module, 'version'=>$baseName)))
 		{
 			$db->createCommand()->insert(
 				$this->migrationTable,
