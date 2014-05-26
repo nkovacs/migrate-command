@@ -21,7 +21,6 @@
  */
 
 Yii::import('system.cli.commands.MigrateCommand');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EDbMigration.php');
 
 /**
  * EMigrateCommand manages the database migrations.
@@ -327,10 +326,6 @@ class EMigrateCommand extends MigrateCommand
 		require_once($class.'.php');
 		$migration=new $class;
 		$migration->setDbConnection($this->getDbConnection());
-        if ($migration instanceof EDbMigration) {
-	        /** @var EDbMigration $migration */
-	        $migration->setCommand($this);
-        }
 		return $migration;
 	}
 
@@ -503,14 +498,5 @@ EXTENDED USAGE EXAMPLES (with modules)
   all other commands work exactly as described above.
 
 EOD;
-	}
-
-	protected function getTemplate()
-	{
-		if ($this->templateFile!==null) {
-			return parent::getTemplate();
-		} else {
-			return str_replace('CDbMigration', 'EDbMigration', parent::getTemplate());
-		}
 	}
 }
