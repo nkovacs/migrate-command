@@ -1,5 +1,5 @@
 {
-    "name": "yiiext/migrate-command",
+    "name": "nkovacs/migrate-command",
     "description": "This is an enhanced version of the Yii Database Migration Tool that adds module support and many more usefull features.",
     "keywords": ["yii", "extension", "database-migration"],
     "homepage": "https://github.com/yiiext/migrate-command",
