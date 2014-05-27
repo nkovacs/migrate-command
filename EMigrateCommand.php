@@ -467,10 +467,15 @@ class EMigrateCommand extends MigrateCommand
 
 	protected function migrateDown($class)
 	{
+		$module = $this->applicationModuleName;
+
 		// remove module if given
 		if (($pos = mb_strpos($class, $this->moduleDelimiter)) !== false) {
+			$module = mb_substr($class, 0, $pos);
 			$class = mb_substr($class, $pos + mb_strlen($this->moduleDelimiter));
 		}
+
+		$this->migrationPath = $this->modulePaths[$module];
 
 		if (mb_strpos($class, self::BASE_MIGRATION) !== 0) {
 			return parent::migrateDown($class);
