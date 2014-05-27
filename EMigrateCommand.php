@@ -450,6 +450,9 @@ class EMigrateCommand extends MigrateCommand
 		if (mb_strpos($class, self::BASE_MIGRATION) === 0) {
 			return;
 		}
+
+		$this->migrationPath = $this->modulePaths[$module];
+
 		if (($ret = parent::migrateUp($class)) !== false) {
 			// add module information to migration table
 			$this->getDbConnection()->createCommand()->update(
