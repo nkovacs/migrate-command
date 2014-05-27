@@ -106,13 +106,13 @@ class EMigrateCommand extends MigrateCommand
 					}
 				}
 			}
+			// add a pseudo-module 'core'
+			$path = Yii::getPathOfAlias($this->migrationPath);
+			if ($path === false || !is_dir($path)) {
+				$this->_disabledModules[] = $this->applicationModuleName;
+			}
+			$this->_modulePaths[$this->applicationModuleName] = $path;
 		}
-		// add a pseudo-module 'core'
-		$path = Yii::getPathOfAlias($this->migrationPath);
-		if ($path === false || !is_dir($path)) {
-			$this->_disabledModules[] = $this->applicationModuleName;
-		}
-		$this->_modulePaths[$this->applicationModuleName] = $path;
 		return $this->_modulePaths;
 	}
 
