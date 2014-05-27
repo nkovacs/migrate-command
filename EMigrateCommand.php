@@ -319,14 +319,6 @@ class EMigrateCommand extends MigrateCommand
 		return $exitCode;
 	}
 
-	protected function instantiateMigration($class)
-	{
-		require_once($class.'.php');
-		$migration=new $class;
-		$migration->setDbConnection($this->getDbConnection());
-		return $migration;
-	}
-
 	// set to not add modules when getHistory is called for getNewMigrations
 	private $_scopeNewMigrations = false;
 	private $_scopeAddModule = true;
