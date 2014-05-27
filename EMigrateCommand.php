@@ -250,8 +250,8 @@ class EMigrateCommand extends MigrateCommand
 		} else {
 			$this->migrationPath = $this->modulePaths[$this->applicationModuleName];
 		}
-		if (!is_dir($this->migrationPath)) {
-			echo "\nError: '{$this->migrationPath}' does not exist or is not a directory!\n\n";
+		if (!is_dir($this->migrationPath) && !mkdir($this->migrationPath)) {
+			echo "\nError: '{$this->migrationPath}' does not exist and could not be created!\n\n";
 			return 1;
 		}
 		return parent::actionCreate($args);
