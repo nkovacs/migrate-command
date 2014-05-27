@@ -81,7 +81,7 @@ class EMigrateCommand extends MigrateCommand
 	{
 		if ($this->_modulePaths === null) {
 			$this->_modulePaths = array();
-			foreach(Yii::app()->modules as $module => $config) {
+			foreach(Yii::app()->getModules() as $module => $config) {
 				if (is_array($config)) {
 					$alias = 'application.modules.' . $module . '.' . ltrim($this->migrationSubPath, '.');
 					if (isset($config['class'])) {
@@ -338,14 +338,15 @@ class EMigrateCommand extends MigrateCommand
 		$this->_scopeNewMigrations = true;
 		$migrations = array();
 		// get new migrations for all new modules
-		foreach($this->_runModulePaths as $module => $path)
-		{
-			$this->migrationPath = Yii::getPathOfAlias($path);
-			foreach(parent::getNewMigrations() as $migration) {
-				if ($this->_scopeAddModule) {
-					$migrations[$migration] = $module.$this->moduleDelimiter.$migration;
-				} else {
-					$migrations[$migration] = $migration;
+		if (is_array($this->_runModulePaths)) {
+			foreach($this->_runModulePaths as $module => $path) {
+				$this->migrationPath = Yii::getPathOfAlias($path);
+				foreach(parent::getNewMigrations() as $migration) {
+					if ($this->_scopeAddModule) {
+						$migrations[$migration] = $module.$this->moduleDelimiter.$migration;
+					} else {
+						$migrations[$migration] = $migration;
+					}
 				}
 			}
 		}
