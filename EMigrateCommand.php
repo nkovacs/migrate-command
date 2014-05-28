@@ -92,7 +92,12 @@ class EMigrateCommand extends MigrateCommand
 					if (is_array($config)) {
 						//$alias = 'application.modules.' . $module . '.' . ltrim($this->migrationSubPath, '.');
 						if (isset($config['class'])) {
-							$path = dirname(Yii::getPathOfAlias($config['class'])) . '/' . str_replace('.', '/', ltrim($this->migrationSubPath, '.'));
+							if (($pos = strrpos($config['class'], '\\')) !==false) { // a class name in PHP 5.3 namespace format
+								$path = realpath(Yii::getPathOfAlias(str_replace('\\', '.', ltrim(substr($config['class'], 0, $pos), '\\'))));
+							} else {
+								$path = realpath(dirname(Yii::getPathOfAlias($config['class'])));
+							}
+							$path .= '/' . str_replace('.', '/', ltrim($this->migrationSubPath, '.'));
 						} elseif (isset($config['basePath'])) {
 							$path = $config['basePath'] . '/' . str_replace('.', '/', ltrim($this->migrationSubPath, '.'));
 						}
