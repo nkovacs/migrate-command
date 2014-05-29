@@ -510,4 +510,19 @@ EXTENDED USAGE EXAMPLES (with modules)
 
 EOD;
 	}
+
+	protected function getTemplate()
+	{
+		if ($this->templateFile !== null) {
+			$path = Yii::getPathOfAlias($this->templateFile);
+			if (is_file($path . '.php')) {
+				return file_get_contents($path . '.php');
+			} elseif (is_file($path . '.tpl')) {
+				return file_get_contents($path . '.tpl');
+			} else {
+				$this->templateFile = null;
+			}
+		}
+		return parent::getTemplate();
+	}
 }
